@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci0hslcnh7wvc"]
+
+[ext_resource type="Texture2D" uid="uid://80dij0rowpdx" path="res://Assets/Sprite/MagicMushroom.png" id="1_blp4k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rdsnf"]
+size = Vector2(16, 16)
+
+[node name="shroom" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_blp4k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rdsnf")

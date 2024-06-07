@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cvq5bikgw4jic"]
+[gd_scene load_steps=15 format=3 uid="uid://cvq5bikgw4jic"]
 
 [ext_resource type="Texture2D" uid="uid://bh2i2pbd72n30" path="res://Assets/Sprite/GroundBlock.png" id="1_cgxq1"]
 [ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprite/HardBlock.png" id="2_fa6lp"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://dtkrgfs1x5qrr" path="res://Assets/Sprite/UndergroundBrick.png" id="4_3uxeh"]
 [ext_resource type="PackedScene" uid="uid://btoiff47cr7vi" path="res://Scenes/player.tscn" id="5_ui22g"]
 [ext_resource type="PackedScene" uid="uid://dwj42273a8vx3" path="res://Scenes/brick.tscn" id="6_rq5uk"]
+[ext_resource type="PackedScene" uid="uid://bl2dsf06nfhf3" path="res://Scenes/koopa.tscn" id="7_b7jjy"]
+[ext_resource type="PackedScene" uid="uid://5thun7ywqtxg" path="res://Scenes/mystery_box.tscn" id="8_tqops"]
+[ext_resource type="Script" path="res://Code/level_manager.gd" id="9_jd3ff"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_il7sb"]
 texture = ExtResource("1_cgxq1")
@@ -41,6 +44,9 @@ sources/4 = SubResource("TileSetAtlasSource_gnkn4")
 
 [node name="main" type="Node"]
 
+[node name="MysteryBox" parent="." instance=ExtResource("8_tqops")]
+position = Vector2(-70, 39)
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_i3nhw")
 format = 2
@@ -50,9 +56,14 @@ layer_0/tile_data = PackedInt32Array(393203, 1, 0, 458739, 1, 0, 393204, 1, 0, 4
 zoom = Vector2(2.75, 2.75)
 
 [node name="Player" parent="." instance=ExtResource("5_ui22g")]
-position = Vector2(-200, 62)
-collision_mask = 22
-speed = 200.0
+position = Vector2(-194, 70)
 
 [node name="Brick" parent="." instance=ExtResource("6_rq5uk")]
 position = Vector2(-86, 39)
+
+[node name="Koopa" parent="." instance=ExtResource("7_b7jjy")]
+position = Vector2(-86, -6)
+horizontal_speed = 0
+
+[node name="LevelManager" type="Node" parent="." groups=["level_manager"]]
+script = ExtResource("9_jd3ff")

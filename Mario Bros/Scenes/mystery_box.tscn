@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://5thun7ywqtxg"]
+
+[ext_resource type="Texture2D" uid="uid://cv5q5jjpotegk" path="res://Assets/Sprite/MysteryBlock.png" id="1_rciux"]
+[ext_resource type="Script" path="res://Code/mystery_box.gd" id="1_w08tt"]
+[ext_resource type="Texture2D" uid="uid://cw5a4ngls41r5" path="res://Assets/Sprite/MysteryBox1.png" id="2_lepol"]
+[ext_resource type="Texture2D" uid="uid://n3wf4wh4jvb8" path="res://Assets/Sprite/MysterBox2.png" id="3_lbfdg"]
+[ext_resource type="Texture2D" uid="uid://dxstf3eeggcla" path="res://Assets/Sprite/EmptyBlock.png" id="5_2kvrw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gs3qm"]
+animations = [{
+"frames": [{
+"duration": 10.0,
+"texture": ExtResource("1_rciux")
+}, {
+"duration": 2.0,
+"texture": ExtResource("2_lepol")
+}, {
+"duration": 2.0,
+"texture": ExtResource("3_lbfdg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_2kvrw")
+}],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mjirw"]
+size = Vector2(15, 16)
+
+[node name="MysteryBox" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 13
+script = ExtResource("1_w08tt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gs3qm")
+animation = &"empty"
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mjirw")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(2.08165e-12, -10)
+collision_mask = 4
+collide_with_areas = true
+collide_with_bodies = false

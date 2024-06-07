@@ -63,9 +63,25 @@ func _physics_process(delta):
 		
 	animated_sprite_2d.trigger_animation(velocity, direction, player_mode)
 	
+	var collision = get_last_slide_collision()
+	
+	if collision != null:
+		handle_movement_collision(collision)
+		
 	move_and_slide()
 		
 
+func handle_movement_collision(collision: KinematicCollision2D):
+	if collision.get_collider() is Block:
+		var collision_angle = rad_to_deg(collision.get_angle())
+		if roundf(collision_angle) == 180:
+			(collision.get_collider() as Block).bump(player_mode)
+	
+	#if collision.get_collider() is Pipe:
+	#	var collision_angle = rad_to_deg(collision.get_angle())
+	#	if roundf(collision_angle) == 0 && Input.is_action_just_pressed("down") && absf(collision.get_collider().position.x - position.x < PIPE_ENTER_THRESHOLD && collision.get_collider().is_traversable):
+	#		print("GO DOWN")
+	#		handle_pipe_collision()
 
 func _on_area_2d_area_entered(area):
 	
@@ -122,3 +138,4 @@ func die():
 	else:
 		#big_to_small()
 		print("died")
+
