@@ -14,7 +14,7 @@ enum PlayerMode {
 
 # On ready
 const POINTS_LABEL_SCENE = preload("res://Scenes/points_label.tscn")
-
+const PIPE_ENTER_THRESHOLD = 10
 const FIREBALL_SCENE = preload("res://Scenes/fireball.tscn")
 
 const SMALL_MARIO_COLLISION_SHAPE = preload("res://Resources/small_mario_collision_shape.tres")
@@ -32,6 +32,7 @@ const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/big_mario_collision_s
 @export var speed = 100.0
 @export var jump_velocity = -350
 @export_group("")
+
 
 @export_group("Camera sync")
 @export var camera_sync: Camera2D
@@ -69,7 +70,7 @@ func _physics_process(delta):
 	if global_position.x < camera_left_bound + 8 && sign(velocity.x) == -1:
 		velocity = Vector2.ZERO
 		return
-			
+	
 	# handle jumps
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
@@ -117,12 +118,21 @@ func handle_movement_collision(collision: KinematicCollision2D):
 		if roundf(collision_angle) == 180:
 			(collision.get_collider() as Block).bump(player_mode)
 	
-	#if collision.get_collider() is Pipe:
-	#	var collision_angle = rad_to_deg(collision.get_angle())
-	#	if roundf(collision_angle) == 0 && Input.is_action_just_pressed("down") && absf(collision.get_collider().position.x - position.x < PIPE_ENTER_THRESHOLD && collision.get_collider().is_traversable):
-	#		print("GO DOWN")
-	#		handle_pipe_collision()
+	if collision.get_collider() is Pipe:
+		var collision_angle = rad_to_deg(collision.get_angle())
+		if roundf(collision_angle) == 0 && Input.is_action_pressed("down") && absf(collision.get_collider().position.x - position.x < PIPE_ENTER_THRESHOLD && collision.get_collider().is_traversable):
+			print("GO DOWN")
+			handle_pipe_collision()
 
+func handle_pipe_collision():
+	set_physics_process(false)
+	z_index = -3
+	var pipe_tween = get_tree().create_tween()
+	pipe_tween.tween_property(self, "position", position + Vector2(0, 32), 1)
+	pipe_tween.tween_callback(switch_to_underground)
+
+func switch_to_underground():
+	get_tree().change_scene_to_file("res://Scenes/underground.tscn")
 func _on_area_2d_area_entered(area):
 	
 	if area is Enemy:

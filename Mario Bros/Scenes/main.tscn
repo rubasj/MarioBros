@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cvq5bikgw4jic"]
+[gd_scene load_steps=16 format=3 uid="uid://cvq5bikgw4jic"]
 
 [ext_resource type="Texture2D" uid="uid://bh2i2pbd72n30" path="res://Assets/Sprite/GroundBlock.png" id="1_cgxq1"]
 [ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprite/HardBlock.png" id="2_fa6lp"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bl2dsf06nfhf3" path="res://Scenes/koopa.tscn" id="7_b7jjy"]
 [ext_resource type="PackedScene" uid="uid://5thun7ywqtxg" path="res://Scenes/mystery_box.tscn" id="8_tqops"]
 [ext_resource type="Script" path="res://Code/level_manager.gd" id="9_jd3ff"]
+[ext_resource type="PackedScene" uid="uid://7wnkj73s5pg7" path="res://Scenes/pipe.tscn" id="10_cqofu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_il7sb"]
 texture = ExtResource("1_cgxq1")
@@ -57,7 +58,14 @@ zoom = Vector2(2.75, 2.75)
 
 [node name="Player" parent="." node_paths=PackedStringArray("camera_sync") instance=ExtResource("5_ui22g")]
 position = Vector2(-194, 64)
+run_speed_damping = 0.5
+speed = 100.0
+jump_velocity = -350
 camera_sync = NodePath("../Camera2D")
+should_camera_sync = true
+min_stomp_degree = 35
+max_stomp_degree = 145
+stomp_y_velocity = -150
 
 [node name="Brick" parent="." instance=ExtResource("6_rq5uk")]
 position = Vector2(-86, 39)
@@ -69,3 +77,11 @@ script = ExtResource("9_jd3ff")
 position = Vector2(-85, 6)
 collision_mask = 11
 horizontal_speed = 0
+
+[node name="Pipe" parent="." instance=ExtResource("10_cqofu")]
+position = Vector2(-12, 57)
+
+[node name="Pipe2" parent="." instance=ExtResource("10_cqofu")]
+position = Vector2(44, 25)
+height = 64
+is_traversable = true
