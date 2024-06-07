@@ -15,6 +15,8 @@ enum PlayerMode {
 # On ready
 const POINTS_LABEL_SCENE = preload("res://Scenes/points_label.tscn")
 
+const SMALL_MARIO_COLLISION_SHAPE = preload("res://Resources/small_mario_collision_shape.tres")
+const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/big_mario_collision_shape.tres")
 
 # References
 @onready var body_collision_shape = $BodyCollisionShape
@@ -87,9 +89,18 @@ func _on_area_2d_area_entered(area):
 	
 	if area is Enemy:
 		handle_enemy_collision(area)	
+	
+	if area is Shroom:
+		handle_shroom_collision(area)
+		area.queue_free()
 
-
-
+func handle_shroom_collision(area: Node2D):
+	if player_mode == PlayerMode.SMALL:
+		set_physics_process(false)
+		animated_sprite_2d.play("small_to_big")
+		set_collision_shapes(false)
+		 
+	
 func handle_enemy_collision(enemy: Enemy):
 	if enemy == null and is_dead:
 		return
@@ -136,6 +147,18 @@ func die():
 		death_tween.tween_callback(func (): get_tree().reload_current_scene())
 		
 	else:
-		#big_to_small()
+		big_to_small()
 		print("died")
 
+func set_collision_shapes(is_small : bool):
+	var collision_shape = SMALL_MARIO_COLLISION_SHAPE if is_small else BIG_MARIO_COLLISION_SHAPE
+	area_collision_shape.set_deferred("shape", collision_shape)
+	body_collision_shape.set_deferred("shape", collision_shape)
+
+
+func big_to_small():
+	set_collision_layer_value(1, false)
+	set_physics_process(false)
+	var animation_name = "small_to_big" if player_mode == PlayerMode.BIG else "small_to_shooting"
+	animated_sprite_2d.play(animation_name, 1.0, true)
+	set_collision_shapes(true)

@@ -46,6 +46,7 @@ sources/4 = SubResource("TileSetAtlasSource_gnkn4")
 
 [node name="MysteryBox" parent="." instance=ExtResource("8_tqops")]
 position = Vector2(-70, 39)
+bonus_type = 0
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_i3nhw")
@@ -61,9 +62,9 @@ position = Vector2(-194, 70)
 [node name="Brick" parent="." instance=ExtResource("6_rq5uk")]
 position = Vector2(-86, 39)
 
-[node name="Koopa" parent="." instance=ExtResource("7_b7jjy")]
-position = Vector2(-86, -6)
-horizontal_speed = 0
-
 [node name="LevelManager" type="Node" parent="." groups=["level_manager"]]
 script = ExtResource("9_jd3ff")
+
+[node name="Koopa" parent="." instance=ExtResource("7_b7jjy")]
+position = Vector2(34, 64)
+horizontal_speed = 0
