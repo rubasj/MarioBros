@@ -32,7 +32,3 @@ func _on_area_entered(area):
 	if (area is Enemy):
 		area.die_from_hit()
 	queue_free()
-
-
-func _on_body_entered(body):
-		queue_free()

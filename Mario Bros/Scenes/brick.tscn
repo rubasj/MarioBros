@@ -1,10 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwj42273a8vx3"]
+[gd_scene load_steps=5 format=3 uid="uid://dwj42273a8vx3"]
 
 [ext_resource type="Script" path="res://brick.gd" id="1_t4yl7"]
 [ext_resource type="Texture2D" uid="uid://co3bdq1m4vg4f" path="res://Assets/Sprite/Brick.png" id="2_quri3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vp76"]
 size = Vector2(16, 16)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dg32p"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(1, 5, 2.08165e-12)
+spread = 180.0
+initial_velocity_min = 10.0
+initial_velocity_max = 12.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.25
+scale_max = 0.25
 
 [node name="Brick" type="StaticBody2D"]
 collision_layer = 17
@@ -22,3 +36,13 @@ target_position = Vector2(2.08165e-12, -10)
 collision_mask = 4
 collide_with_areas = true
 collide_with_bodies = false
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_dg32p")
+texture = ExtResource("2_quri3")
+one_shot = true
+speed_scale = 2.0
+
+[connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]

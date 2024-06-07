@@ -33,6 +33,10 @@ const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/big_mario_collision_s
 @export var jump_velocity = -350
 @export_group("")
 
+@export_group("Camera sync")
+@export var camera_sync: Camera2D
+@export var should_camera_sync: bool = true
+@export_group("")
 
 @export_group("Stomping enemies")
 @export var min_stomp_degree = 35
@@ -45,10 +49,27 @@ var player_mode = PlayerMode.SMALL
 # state flags for Player
 var is_dead = false
 
+func _process(delta):
+	if global_position.x > camera_sync.global_position.x && should_camera_sync:
+		camera_sync.global_position.x = global_position.x
+	
+	#if is_on_path:
+	#	castle_path.progress += delta * speed / 2
+	#	if castle_path.progress_ratio > 0.97:
+	#		is_on_path = false
+	#		land_down()
+			
 func _physics_process(delta):
+	
+	var camera_left_bound = camera_sync.global_position.x - camera_sync.get_viewport_rect().size.x / 2 / camera_sync.zoom.x
+	
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		
+	
+	if global_position.x < camera_left_bound + 8 && sign(velocity.x) == -1:
+		velocity = Vector2.ZERO
+		return
+			
 	# handle jumps
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
