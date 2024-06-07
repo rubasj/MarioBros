@@ -15,6 +15,8 @@ enum PlayerMode {
 # On ready
 const POINTS_LABEL_SCENE = preload("res://Scenes/points_label.tscn")
 
+const FIREBALL_SCENE = preload("res://Scenes/fireball.tscn")
+
 const SMALL_MARIO_COLLISION_SHAPE = preload("res://Resources/small_mario_collision_shape.tres")
 const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/big_mario_collision_shape.tres")
 
@@ -23,6 +25,7 @@ const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/big_mario_collision_s
 @onready var area_collision_shape = $Area2D/AreaCollisionShape
 @onready var animated_sprite_2d = $AnimatedSprite2D as PlayerAnimatedSprite
 @onready var area_2d = $Area2D
+@onready var shooting_point = $ShootingPoint
 
 @export_group("Locomotion")
 @export var run_speed_damping = 0.5
@@ -63,16 +66,30 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed * delta)
 		
-	animated_sprite_2d.trigger_animation(velocity, direction, player_mode)
+		
+	if Input.is_action_just_pressed("shoot") && player_mode == PlayerMode.SHOOTING:
+		shoot()
+	
+	else:	
+		animated_sprite_2d.trigger_animation(velocity, direction, player_mode)
 	
 	var collision = get_last_slide_collision()
-	
 	if collision != null:
 		handle_movement_collision(collision)
 		
 	move_and_slide()
 		
 
+func shoot():
+	animated_sprite_2d.play("shoot")
+	set_physics_process(false)
+	
+	var fireball = FIREBALL_SCENE.instantiate()
+	fireball.direction = sign(animated_sprite_2d.scale.x)
+	fireball.global_position = shooting_point.global_position
+	get_tree().root.add_child(fireball)
+	
+	
 func handle_movement_collision(collision: KinematicCollision2D):
 	if collision.get_collider() is Block:
 		var collision_angle = rad_to_deg(collision.get_angle())
@@ -93,7 +110,17 @@ func _on_area_2d_area_entered(area):
 	if area is Shroom:
 		handle_shroom_collision(area)
 		area.queue_free()
+	
+	if area is Flower:
+		handle_flower_collision()
+		area.queue_free()
 
+func handle_flower_collision():
+	set_physics_process(false)
+	var animation_name = "small_to_shooting" if player_mode == PlayerMode.SMALL else "big_to_shooting"
+	animated_sprite_2d.play(animation_name)
+	set_collision_shapes(false)
+	
 func handle_shroom_collision(area: Node2D):
 	if player_mode == PlayerMode.SMALL:
 		set_physics_process(false)
