@@ -1,9 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://cvq5bikgw4jic"]
+[gd_scene load_steps=12 format=3 uid="uid://cvq5bikgw4jic"]
 
 [ext_resource type="Texture2D" uid="uid://bh2i2pbd72n30" path="res://Assets/Sprite/GroundBlock.png" id="1_cgxq1"]
 [ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprite/HardBlock.png" id="2_fa6lp"]
-[ext_resource type="Texture2D" uid="uid://dbhkvad8kmca" path="res://Assets/Sprite/UndergroundBlock.png" id="3_6mvsa"]
-[ext_resource type="Texture2D" uid="uid://dtkrgfs1x5qrr" path="res://Assets/Sprite/UndergroundBrick.png" id="4_3uxeh"]
 [ext_resource type="PackedScene" uid="uid://btoiff47cr7vi" path="res://Scenes/player.tscn" id="5_ui22g"]
 [ext_resource type="PackedScene" uid="uid://dwj42273a8vx3" path="res://Scenes/brick.tscn" id="6_rq5uk"]
 [ext_resource type="PackedScene" uid="uid://bl2dsf06nfhf3" path="res://Scenes/koopa.tscn" id="7_b7jjy"]
@@ -11,37 +9,23 @@
 [ext_resource type="Script" path="res://Code/level_manager.gd" id="9_jd3ff"]
 [ext_resource type="PackedScene" uid="uid://7wnkj73s5pg7" path="res://Scenes/pipe.tscn" id="10_cqofu"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_il7sb"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ffsor"]
 texture = ExtResource("1_cgxq1")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iuj8r"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7dde"]
 texture = ExtResource("2_fa6lp")
-0:0/0 = 0
-0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/0/physics_layer_0/angular_velocity = 0.0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ooaif"]
-texture = ExtResource("3_6mvsa")
-0:0/0 = 0
-0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/0/physics_layer_0/angular_velocity = 0.0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gnkn4"]
-texture = ExtResource("4_3uxeh")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id="TileSet_i3nhw"]
 physics_layer_0/collision_layer = 2
-sources/1 = SubResource("TileSetAtlasSource_il7sb")
-sources/2 = SubResource("TileSetAtlasSource_iuj8r")
-sources/3 = SubResource("TileSetAtlasSource_ooaif")
-sources/4 = SubResource("TileSetAtlasSource_gnkn4")
+sources/0 = SubResource("TileSetAtlasSource_ffsor")
+sources/1 = SubResource("TileSetAtlasSource_t7dde")
 
 [node name="main" type="Node"]
 
@@ -51,21 +35,14 @@ position = Vector2(-70, 39)
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_i3nhw")
 format = 2
-layer_0/tile_data = PackedInt32Array(393203, 1, 0, 458739, 1, 0, 393204, 1, 0, 458740, 1, 0, 393205, 1, 0, 458741, 1, 0, 393206, 1, 0, 458742, 1, 0, 393207, 1, 0, 458743, 1, 0, 393208, 1, 0, 458744, 1, 0, 393209, 1, 0, 458745, 1, 0, 393210, 1, 0, 458746, 1, 0, 393211, 1, 0, 458747, 1, 0, 393212, 1, 0, 458748, 1, 0, 393213, 1, 0, 458749, 1, 0, 393214, 1, 0, 458750, 1, 0, 393215, 1, 0, 458751, 1, 0, 327680, 1, 0, 393216, 1, 0, 327681, 1, 0, 393217, 1, 0, 327682, 1, 0, 393218, 1, 0, 327683, 1, 0, 393219, 1, 0, 327684, 1, 0, 393220, 1, 0, 327685, 1, 0, 393221, 1, 0, 327686, 1, 0, 393222, 1, 0, 327687, 1, 0, 393223, 1, 0, 327688, 1, 0, 393224, 1, 0, 327689, 1, 0, 393225, 1, 0, 327690, 1, 0, 393226, 1, 0, 327691, 1, 0, 393227, 1, 0, 327692, 1, 0, 393228, 1, 0, 524275, 1, 0, 524276, 1, 0, 524277, 1, 0, 524278, 1, 0, 524279, 1, 0, 524280, 1, 0, 524281, 1, 0, 524282, 1, 0, 524283, 1, 0, 524284, 1, 0, 524285, 1, 0, 524286, 1, 0, 524287, 1, 0, 458752, 1, 0, 458753, 1, 0, 458754, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 458761, 1, 0, 458762, 1, 0, 458763, 1, 0, 458764, 1, 0)
+layer_0/tile_data = PackedInt32Array(393203, 0, 0, 458739, 0, 0, 524275, 0, 0, 393204, 0, 0, 458740, 0, 0, 524276, 0, 0, 393205, 0, 0, 458741, 0, 0, 524277, 0, 0, 393206, 0, 0, 458742, 0, 0, 524278, 0, 0, 393207, 0, 0, 458743, 0, 0, 524279, 0, 0, 393208, 0, 0, 458744, 0, 0, 524280, 0, 0, 393209, 0, 0, 458745, 0, 0, 524281, 0, 0, 393210, 0, 0, 458746, 0, 0, 524282, 0, 0, 393211, 0, 0, 458747, 0, 0, 524283, 0, 0, 393212, 0, 0, 458748, 0, 0, 524284, 0, 0, 393213, 0, 0, 458749, 0, 0, 524285, 0, 0, 393214, 0, 0, 458750, 0, 0, 524286, 0, 0, 393215, 0, 0, 458751, 0, 0, 524287, 0, 0, 327680, 0, 0, 393216, 0, 0, 458752, 0, 0, 327681, 0, 0, 393217, 0, 0, 458753, 0, 0, 327682, 0, 0, 393218, 0, 0, 458754, 0, 0, 327683, 0, 0, 393219, 0, 0, 458755, 0, 0, 327684, 0, 0, 393220, 0, 0, 458756, 0, 0, 327685, 0, 0, 393221, 0, 0, 458757, 0, 0, 327686, 0, 0, 393222, 0, 0, 458758, 0, 0, 327687, 0, 0, 393223, 0, 0, 458759, 0, 0, 327688, 0, 0, 393224, 0, 0, 458760, 0, 0, 327689, 0, 0, 393225, 0, 0, 458761, 0, 0, 327690, 0, 0, 393226, 0, 0, 458762, 0, 0, 327691, 0, 0, 393227, 0, 0, 458763, 0, 0, 327692, 0, 0, 393228, 0, 0, 458764, 0, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.75, 2.75)
 
 [node name="Player" parent="." node_paths=PackedStringArray("camera_sync") instance=ExtResource("5_ui22g")]
 position = Vector2(-194, 64)
-run_speed_damping = 0.5
-speed = 100.0
-jump_velocity = -350
 camera_sync = NodePath("../Camera2D")
-should_camera_sync = true
-min_stomp_degree = 35
-max_stomp_degree = 145
-stomp_y_velocity = -150
 
 [node name="Brick" parent="." instance=ExtResource("6_rq5uk")]
 position = Vector2(-86, 39)

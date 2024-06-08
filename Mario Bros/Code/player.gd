@@ -33,11 +33,11 @@ const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/big_mario_collision_s
 @export var jump_velocity = -350
 @export_group("")
 
-
 @export_group("Camera sync")
 @export var camera_sync: Camera2D
 @export var should_camera_sync: bool = true
 @export_group("")
+
 
 @export_group("Stomping enemies")
 @export var min_stomp_degree = 35
@@ -133,6 +133,10 @@ func handle_pipe_collision():
 
 func switch_to_underground():
 	get_tree().change_scene_to_file("res://Scenes/underground.tscn")
+	SceneData.player_mode = player_mode
+	
+	
+	
 func _on_area_2d_area_entered(area):
 	
 	if area is Enemy:
