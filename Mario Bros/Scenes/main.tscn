@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cvq5bikgw4jic"]
+[gd_scene load_steps=17 format=3 uid="uid://cvq5bikgw4jic"]
 
 [ext_resource type="Texture2D" uid="uid://bh2i2pbd72n30" path="res://Assets/Sprite/GroundBlock.png" id="1_cgxq1"]
 [ext_resource type="Texture2D" uid="uid://8as4lix1a8pr" path="res://Assets/Sprite/HardBlock.png" id="2_fa6lp"]
@@ -6,11 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://dwj42273a8vx3" path="res://Scenes/brick.tscn" id="6_rq5uk"]
 [ext_resource type="PackedScene" uid="uid://bl2dsf06nfhf3" path="res://Scenes/koopa.tscn" id="7_b7jjy"]
 [ext_resource type="PackedScene" uid="uid://5thun7ywqtxg" path="res://Scenes/mystery_box.tscn" id="8_tqops"]
+[ext_resource type="PackedScene" uid="uid://dscmko5h0dhso" path="res://Scenes/flag.tscn" id="8_unec2"]
 [ext_resource type="Script" path="res://Code/level_manager.gd" id="9_jd3ff"]
 [ext_resource type="PackedScene" uid="uid://bx1nybfma2kcn" path="res://Scenes/ui.tscn" id="9_pjghu"]
 [ext_resource type="PackedScene" uid="uid://7wnkj73s5pg7" path="res://Scenes/pipe.tscn" id="10_cqofu"]
 [ext_resource type="PackedScene" uid="uid://5t5h0pst1gj6" path="res://Scenes/goomba.tscn" id="10_q2kc8"]
 [ext_resource type="PackedScene" uid="uid://y1x8igaeh7p2" path="res://Scenes/fall_down_area.tscn" id="11_28ave"]
+[ext_resource type="Texture2D" uid="uid://75uhio5lh74v" path="res://Assets/Sprite/Castle.png" id="13_g51to"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ffsor"]
 texture = ExtResource("1_cgxq1")
@@ -42,7 +44,7 @@ layer_0/tile_data = PackedInt32Array(393203, 0, 0, 458739, 0, 0, 524275, 0, 0, 3
 zoom = Vector2(2.75, 2.75)
 
 [node name="Player" parent="." node_paths=PackedStringArray("camera_sync") instance=ExtResource("5_ui22g")]
-position = Vector2(-194, 64)
+position = Vector2(-185, 53)
 camera_sync = NodePath("../Camera2D")
 
 [node name="UI" parent="." instance=ExtResource("9_pjghu")]
@@ -62,16 +64,11 @@ bonus_type = 0
 
 [node name="MysteryBox4" parent="Environment/Platform2" instance=ExtResource("8_tqops")]
 position = Vector2(293, 35)
-bonus_type = 1
 
 [node name="Brick2" parent="Environment/Platform2" instance=ExtResource("6_rq5uk")]
 position = Vector2(-135, 35)
 
 [node name="platform1" type="Node2D" parent="Environment"]
-
-[node name="MysteryBox3" parent="Environment/platform1" instance=ExtResource("8_tqops")]
-position = Vector2(-89, 35)
-bonus_type = 0
 
 [node name="Brick" parent="Environment/platform1" instance=ExtResource("6_rq5uk")]
 position = Vector2(-104, 35)
@@ -95,9 +92,6 @@ position = Vector2(339, 35)
 [node name="Brick6" parent="Environment/platform1" instance=ExtResource("6_rq5uk")]
 position = Vector2(324, 35)
 
-[node name="MysteryBox4" parent="Environment/platform1" instance=ExtResource("8_tqops")]
-position = Vector2(-121, -21)
-
 [node name="MysteryBox4" parent="Environment" instance=ExtResource("8_tqops")]
 position = Vector2(321, -30)
 bonus_type = 1
@@ -119,6 +113,9 @@ position = Vector2(851, 37)
 position = Vector2(835, 37)
 bonus_type = 1
 
+[node name="Flag" parent="Environment" instance=ExtResource("8_unec2")]
+position = Vector2(1378, 79)
+
 [node name="Pipes" type="Node2D" parent="."]
 
 [node name="Pipe" parent="Pipes" instance=ExtResource("10_cqofu")]
@@ -132,7 +129,7 @@ is_traversable = true
 [node name="enemies" type="Node2D" parent="."]
 
 [node name="Koopa4" parent="enemies" instance=ExtResource("7_b7jjy")]
-position = Vector2(593, 55)
+position = Vector2(601, 59)
 
 [node name="Goomba" parent="enemies" instance=ExtResource("10_q2kc8")]
 position = Vector2(370, 7)
@@ -141,7 +138,7 @@ position = Vector2(370, 7)
 position = Vector2(-5, 52)
 
 [node name="Koopa" parent="enemies" instance=ExtResource("7_b7jjy")]
-position = Vector2(-90, 13)
+position = Vector2(87, 6)
 
 [node name="Koopa2" parent="enemies" instance=ExtResource("7_b7jjy")]
 position = Vector2(487, 55)
@@ -150,13 +147,13 @@ position = Vector2(487, 55)
 position = Vector2(336, -61)
 
 [node name="Goomba4" parent="enemies" instance=ExtResource("10_q2kc8")]
-position = Vector2(1095, 59)
+position = Vector2(1074, 58)
 
 [node name="Koopa5" parent="enemies" instance=ExtResource("7_b7jjy")]
-position = Vector2(835, 13)
+position = Vector2(913, 54)
 
 [node name="Goomba5" parent="enemies" instance=ExtResource("10_q2kc8")]
-position = Vector2(851, 6)
+position = Vector2(996, 64)
 
 [node name="Node" type="Node" parent="."]
 
@@ -165,3 +162,15 @@ position = Vector2(751, 138)
 
 [node name="FallDownArea2" parent="Node" instance=ExtResource("11_28ave")]
 position = Vector2(1227, 140)
+
+[node name="Castle" type="Sprite2D" parent="."]
+position = Vector2(1476, 42)
+texture = ExtResource("13_g51to")
+
+[node name="MysteryBox" parent="." instance=ExtResource("8_tqops")]
+position = Vector2(1075, 37)
+bonus_type = 0
+
+[node name="MysteryBox2" parent="." instance=ExtResource("8_tqops")]
+position = Vector2(-88, 35)
+bonus_type = 1

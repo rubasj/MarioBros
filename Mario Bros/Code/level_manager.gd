@@ -11,7 +11,7 @@ var coins = 0
 
 func _ready():
 
-	#player.castle_entered.connect(ui.on_finish)
+	player.castle_entered.connect(ui.on_finish)
 	
 	if SceneData.points != 0:
 		ui.set_score(SceneData.points)

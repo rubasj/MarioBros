@@ -4,6 +4,8 @@ extends CharacterBody2D
 class_name Player
 
 signal points_scored(points: int)
+signal castle_entered
+
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 enum PlayerMode {
@@ -26,6 +28,7 @@ const BIG_MARIO_COLLISION_SHAPE = preload("res://Resources/big_mario_collision_s
 @onready var animated_sprite_2d = $AnimatedSprite2D as PlayerAnimatedSprite
 @onready var area_2d = $Area2D
 @onready var shooting_point = $ShootingPoint
+@onready var land_down_marker = $"../LandDownMarker" as Marker2D
 
 @export_group("Locomotion")
 @export var run_speed_damping = 0.5
@@ -50,17 +53,10 @@ var player_mode = PlayerMode.SMALL
 # state flags for Player
 var is_dead = false
 
-
 func _process(delta):
 	if global_position.x > camera_sync.global_position.x && should_camera_sync:
 		camera_sync.global_position.x = global_position.x
 	
-	#if is_on_path:
-	#	castle_path.progress += delta * speed / 2
-	#	if castle_path.progress_ratio > 0.97:
-	#		is_on_path = false
-	#		land_down()
-
 func _ready():
 	if SceneData.return_point != null && SceneData.return_point != Vector2.ZERO:
 		global_position = SceneData.return_point
@@ -247,3 +243,22 @@ func switch_to_main():
 	SceneData.coins = level_manager.coins
 	SceneData.points = level_manager.points 
 	get_tree().change_scene_to_file("res://Scenes/main.tscn")
+
+
+func on_pole_hit():
+	set_physics_process(false)
+	velocity = Vector2.ZERO
+	var land_tween = get_tree().create_tween()
+	land_tween.tween_callback(go_to_castle)
+
+func go_to_castle():
+	var animation_prefix = Player.PlayerMode.keys()[player_mode].to_snake_case()
+	animated_sprite_2d.play("%s_run" % animation_prefix)
+	
+	var run_to_castle_tween = get_tree().create_tween()
+	run_to_castle_tween.tween_property(self, "position", position + Vector2(75, 0), .5)
+	run_to_castle_tween.tween_callback(finish)	
+	
+func finish():
+	queue_free()
+	castle_entered.emit()
