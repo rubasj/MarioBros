@@ -50,6 +50,7 @@ var player_mode = PlayerMode.SMALL
 # state flags for Player
 var is_dead = false
 
+
 func _process(delta):
 	if global_position.x > camera_sync.global_position.x && should_camera_sync:
 		camera_sync.global_position.x = global_position.x
@@ -59,7 +60,11 @@ func _process(delta):
 	#	if castle_path.progress_ratio > 0.97:
 	#		is_on_path = false
 	#		land_down()
-			
+
+func _ready():
+	if SceneData.return_point != null && SceneData.return_point != Vector2.ZERO:
+		global_position = SceneData.return_point
+					
 func _physics_process(delta):
 	
 	var camera_left_bound = camera_sync.global_position.x - camera_sync.get_viewport_rect().size.x / 2 / camera_sync.zoom.x
@@ -132,9 +137,13 @@ func handle_pipe_collision():
 	pipe_tween.tween_callback(switch_to_underground)
 
 func switch_to_underground():
-	get_tree().change_scene_to_file("res://Scenes/underground.tscn")
+	var level_manager = get_tree().get_first_node_in_group("level_manager")
+
+
 	SceneData.player_mode = player_mode
-	
+	SceneData.coins = level_manager.coins
+	SceneData.points = level_manager.points 
+	get_tree().change_scene_to_file("res://Scenes/underground.tscn")
 	
 	
 func _on_area_2d_area_entered(area):
@@ -170,7 +179,7 @@ func handle_enemy_collision(enemy: Enemy):
 	if is_instance_of(enemy, Koopa) and (enemy as Koopa).in_a_shell:
 		(enemy as Koopa).on_stomp(global_position)
 		spawn_points_label(enemy)
-		#level_manager.on_points_scored(100)
+		level_manager.on_points_scored(100)
 	else:
 		var angle_of_collision = rad_to_deg(position.angle_to_point(enemy.position))
 		
@@ -178,7 +187,7 @@ func handle_enemy_collision(enemy: Enemy):
 			enemy.die()
 			on_enemy_stomped()
 			spawn_points_label(enemy)
-			#level_manager.on_points_scored(100)
+			level_manager.on_points_scored(100)
 		else:
 			die()
 	
@@ -224,3 +233,17 @@ func big_to_small():
 	var animation_name = "small_to_big" if player_mode == PlayerMode.BIG else "small_to_shooting"
 	animated_sprite_2d.play(animation_name, 1.0, true)
 	set_collision_shapes(true)
+
+func handle_pipe_connector_entrance_collision():
+	set_physics_process(false)
+	var pipe_tween = get_tree().create_tween()
+	pipe_tween.tween_property(self, "position", position + Vector2(32, 0), 1)
+	pipe_tween.tween_callback(switch_to_main)
+
+func switch_to_main():
+	var level_manager = get_tree().get_first_node_in_group("level_manager")
+	
+	SceneData.player_mode = player_mode
+	SceneData.coins = level_manager.coins
+	SceneData.points = level_manager.points 
+	get_tree().change_scene_to_file("res://Scenes/main.tscn")

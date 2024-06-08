@@ -99,7 +99,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_umswb")
 }],
-"loop": true,
+"loop": false,
 "name": &"big_to_shooting",
 "speed": 5.0
 }, {
@@ -276,7 +276,7 @@ script = ExtResource("1_tmt4v")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_wwgbl")
-animation = &"shoot"
+animation = &"big_to_shooting"
 script = ExtResource("3_idt7c")
 
 [node name="Area2D" type="Area2D" parent="."]

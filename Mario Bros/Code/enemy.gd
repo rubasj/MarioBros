@@ -41,7 +41,7 @@ func die_from_hit():
 	get_tree().root.add_child(points_label)
 	
 	var level_manager = get_tree().get_first_node_in_group("level_manager")
-	#level_manager.on_points_scored(100)
+	level_manager.on_points_scored(100)
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free() 
